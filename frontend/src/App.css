@@ -1,0 +1,39 @@
+
+
+
+/* Remove default browser margin/padding and fill full screen */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #e8f5e9;
+  overflow-x: hidden;
+}
+
+/* Helps prevent layout gaps due to default box model */
+* {
+  box-sizing: border-box;
+}
+
+/* Existing Leaflet container */
+.leaflet-container {
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+}
+
+
+
+
+
+
+
+
+
+.leaflet-container {
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+}
+
