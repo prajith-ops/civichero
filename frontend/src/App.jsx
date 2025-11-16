@@ -47,7 +47,7 @@ const Home = () => (
     <HowItWorks />
     <CommunityReports />
     {/* <CTASection /> */}
-    <Footer />
+    <Footer  />
   </>
 );
 

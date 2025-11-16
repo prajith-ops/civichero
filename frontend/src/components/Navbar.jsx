@@ -1,18 +1,28 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Box,
-} from "@mui/material";
-import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleScrollToFooter = () => {
-    const footer = document.getElementById("contact-section");
-    if (footer) {
-      footer.scrollIntoView({ behavior: "smooth" });
+    if (location.pathname !== "/") {
+      // Go to home page first, then scroll
+      navigate("/");
+      // Wait for navigation to complete, then scroll
+      setTimeout(() => {
+        const footer = document.getElementById("contact-section");
+        if (footer) {
+          footer.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 500);
+    } else {
+      // Already on home page — scroll directly
+      const footer = document.getElementById("contact-section");
+      if (footer) {
+        footer.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 

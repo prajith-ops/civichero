@@ -8,12 +8,12 @@ const path = require("path");
 const connectDB = require("./db/connection");
 
 // ✅ Import routes
-const authRoutes = require("./routes/UserRoutes"); // Login/Logout
-const signupRoute = require("./routes/signupRoute"); // Signup with captcha
-const reportRoutes = require("./routes/reportRoutes"); // Issue reporting
-const violationRoutes = require("./routes/violationRoutes"); // Rule violations
-const adminRoutes = require("./routes/admin"); // Admin management
-const driveRoutes = require("./routes/driveRoutes"); // Community drives
+const authRoutes = require("./routes/UserRoutes"); 
+const signupRoute = require("./routes/signupRoute");
+const reportRoutes = require("./routes/reportRoutes");
+const violationRoutes = require("./routes/violationRoutes");
+const adminRoutes = require("./routes/admin");
+const driveRoutes = require("./routes/driveRoutes");
 
 // ✅ Connect to MongoDB
 connectDB();
@@ -25,28 +25,41 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Serve uploaded files (images, proofs, etc.)
+// ✅ Serve uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// ✅ Mount all API routes
-app.use("/api/auth", authRoutes); // 🔐 Authentication (login/logout)
-app.use("/api/signup", signupRoute); // 🧩 Registration with Captcha
-app.use("/api/issues", reportRoutes); // 🧾 Issue reports
-app.use("/api/violations", violationRoutes); // ⚖️ Law/Rule violations
-app.use("/api/admin", adminRoutes); // 🛠️ Admin management
-app.use("/api/drives", driveRoutes); // 🌱 Community drive routes
+// ✅ Mount all backend API routes
+app.use("/api/auth", authRoutes);
+app.use("/api/signup", signupRoute);
+app.use("/api/issues", reportRoutes);
+app.use("/api/violations", violationRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/drives", driveRoutes);
 
-// ✅ Health check route
-app.get("/", (req, res) => {
-  res.send("🌍 CivicHero Backend is running successfully!");
+// ---------------------------------------------
+// 🚀 Serve Frontend (React/Vite Build)
+// ---------------------------------------------
+
+// 👉 Make sure you moved the frontend build to: backend/dist
+const frontendPath = path.join(__dirname, "dist");
+
+// Serve static files
+app.use(express.static(frontendPath));
+
+// Handle all other routes → send frontend
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
+
+// ---------------------------------------------
 
 // ✅ Global error handler
 app.use((err, req, res, next) => {
   console.error("❌ Server Error:", err.stack);
-  res
-    .status(500)
-    .json({ success: false, message: "Something went wrong on the server." });
+  res.status(500).json({
+    success: false,
+    message: "Something went wrong on the server."
+  });
 });
 
 // ✅ Start the server
