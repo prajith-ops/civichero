@@ -8,7 +8,7 @@ const path = require("path");
 const connectDB = require("./db/connection");
 
 // ✅ Import routes
-const authRoutes = require("./routes/UserRoutes"); 
+const authRoutes = require("./routes/UserRoutes");
 const signupRoute = require("./routes/signupRoute");
 const reportRoutes = require("./routes/reportRoutes");
 const violationRoutes = require("./routes/violationRoutes");
@@ -39,15 +39,14 @@ app.use("/api/drives", driveRoutes);
 // ---------------------------------------------
 // 🚀 Serve Frontend (React/Vite Build)
 // ---------------------------------------------
-
-// 👉 Make sure you moved the frontend build to: backend/dist
+// Make sure frontend build folder is inside backend/dist
 const frontendPath = path.join(__dirname, "dist");
 
-// Serve static files
+// Serve static assets first
 app.use(express.static(frontendPath));
 
-// Handle all other routes → send frontend
-app.get("*", (req, res) => {
+// Express v5: Catch-all route (NO "*")
+app.use((req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
